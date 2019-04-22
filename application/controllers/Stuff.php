@@ -8,7 +8,20 @@ require APPPATH . 'libraries/Format.php';
 class Stuff extends REST_Controller {
     function __construct() {
         parent::__construct();
-    }
+	}
+	
+	public function index_get() {
+		$output = [
+            'errCode' => '00',
+			'message' => 'Success',
+			'stuffs' => []
+		];
+		$allStuff = $this->db->get('stuff');
+		if ($allStuff->num_rows() > 0) {
+			$output['stuffs'] = $allStuff->result();
+		}
+		$this->set_response($output, 200);
+	}
 
     public function index_post() {
 		//Default output
