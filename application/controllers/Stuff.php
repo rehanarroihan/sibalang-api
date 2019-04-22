@@ -14,7 +14,7 @@ class Stuff extends REST_Controller {
 		//Default output
 		$output = [
             'errCode' => '00',
-            'message' => 'Berhasil mendaftarkan user',
+            'message' => 'Berhasil',
 		];
 
 		//Genereate time 
@@ -46,5 +46,22 @@ class Stuff extends REST_Controller {
 			$output['message'] = $this->upload->display_errors();
 		}
     	$this->set_response($output, 200);
+	}
+
+	public function turn_post() {
+		//Default output
+		$output = [
+            'errCode' => '00',
+            'message' => 'Berhasil mendaftarkan user',
+		];
+
+		$this->db->set('turned', 1)->where('id', $this->post('stuff_id'))->update('stuff');
+		if($this->db->affected_rows() > 0){
+			$output['message'] = 'Status barang telah di ubah';
+		} else {
+			$output['errCode'] = '01';
+			$output['message'] = 'Gagal memperbarui status barang, silahkan coba lagi';
+		}
+		$this->set_response($output, 200);
 	}
 }
