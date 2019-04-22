@@ -6,6 +6,7 @@ require APPPATH . 'libraries/REST_Controller.php';
 require APPPATH . 'libraries/Format.php';
 
 class Stuff extends REST_Controller {
+
     function __construct() {
         parent::__construct();
 	}
@@ -19,6 +20,25 @@ class Stuff extends REST_Controller {
 		$allStuff = $this->db->get('stuff');
 		if ($allStuff->num_rows() > 0) {
 			$output['stuffs'] = $allStuff->result();
+		}
+		$this->set_response($output, 200);
+	}
+
+	public function detail_get($stuff_id) {
+		$output = [
+            'errCode' => '00',
+			'message' => 'Success',
+			'stuff' => []
+		];
+		$detail = $this->db->where('stuff.id', $stuff_id)
+							->join('user', 'stuff.nim = user.nim')
+							->get('stuff');
+		if($detail->num_rows() > 0){
+			unset($detail->result()[0]->password);
+			$output['stuff'] = $detail->result()[0];
+		} else {
+			$output['errCode'] = '01';
+			$output['message'] = 'Data not found';
 		}
 		$this->set_response($output, 200);
 	}
