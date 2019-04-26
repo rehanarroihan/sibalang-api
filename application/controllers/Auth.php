@@ -21,15 +21,25 @@ class Auth extends REST_Controller {
 			'phone' => $this->post('phone'),
 			'position' => $this->post('position'),
 		];
-		$query = $this->db->insert('user', $registerData);
         $output = [
             'errCode' => '00',
-			'message' => 'Berhasil mendaftarkan user',
-			'user_info' => []
+			'message' => 'Berhasil mendaftarkan user'
 		];
+
+		//check if there is nim already registered
+		$queryCheck = $this->db->where('nim', $this->post('nim'))->get('user');
+		if($queryCheck->num_rows() > 0) {
+			$output['errCode'] = '02';
+			$output['message'] = 'NIM Sudah terdaftar';
+			$this->set_response($output, 200);
+			return;
+		}
+		
+		//starting inserting new user
+		$query = $this->db->insert('user', $registerData);
 		if($this->db->affected_rows() > 0){
 			$output['message'] = 'Berhasil mendaftarkan pengguna baru!';
-			$output['user_info'] = $this->db->where('id', $this->db->insert_id())->get('user')->row();
+			//$output['user_info'] = $this->db->where('id', $this->db->insert_id())->get('user')->row();
 		} else {
 			$output['errCode'] = '01';
 			$output['message'] = 'Gagal mendaftarkan pengguna baru, silahkan coba lagi.';
