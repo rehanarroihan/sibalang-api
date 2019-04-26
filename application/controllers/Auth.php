@@ -39,7 +39,6 @@ class Auth extends REST_Controller {
 		$query = $this->db->insert('user', $registerData);
 		if($this->db->affected_rows() > 0){
 			$output['message'] = 'Berhasil mendaftarkan pengguna baru!';
-			//$output['user_info'] = $this->db->where('id', $this->db->insert_id())->get('user')->row();
 		} else {
 			$output['errCode'] = '01';
 			$output['message'] = 'Gagal mendaftarkan pengguna baru, silahkan coba lagi.';
@@ -56,10 +55,12 @@ class Auth extends REST_Controller {
 					->get('user');
         $output = [
             'errCode' => '00',
-            'message' => 'Berhasil mendaftarkan user',
+			'message' => ''
 		];
 		if($query->num_rows() > 0){
 			$output['message'] = 'Berhasil masuk';
+			$output['userdata'] = $this->db->where('nim', $nim)->get('user')->row();
+			unset($output['userdata']->password);
 		}
 		if($query->num_rows() == 0){
 			$output['errCode'] = '01';
