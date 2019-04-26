@@ -60,12 +60,13 @@ class Stuff extends REST_Controller {
 		$this->load->library('upload', $config);
 		if ($this->upload->do_upload('photo')){
 			$inputData = [
-				'nim' => $this->post('nim'),
+				'id_user' => $this->post('id_user'),
+				'type' => $this->post('type'),
 				'name' => $this->post('name'),
 				'description' => $this->post('description'),
 				'date' => $now,
 				'photo' => $this->upload->data()['file_name'],
-				'turned' => 1
+				'claimer' => null
 			];
 			$query = $this->db->insert('stuff', $inputData);
 			if($this->db->affected_rows() > 0){
