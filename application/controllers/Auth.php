@@ -15,7 +15,7 @@ class Auth extends REST_Controller {
 		$registerData = [
 			'nim' => $this->post('nim'),
 			'password' => $this->post('password'),
-			'fullname' => $this->post('fullname'),
+			'full_name' => $this->post('full_name'),
 			'departmen' => $this->post('departmen'),
 			'program' => $this->post('program'),
 			'phone' => $this->post('phone'),
@@ -24,10 +24,12 @@ class Auth extends REST_Controller {
 		$query = $this->db->insert('user', $registerData);
         $output = [
             'errCode' => '00',
-            'message' => 'Berhasil mendaftarkan user',
+			'message' => 'Berhasil mendaftarkan user',
+			'user_info' => []
 		];
 		if($this->db->affected_rows() > 0){
 			$output['message'] = 'Berhasil mendaftarkan pengguna baru!';
+			$output['user_info'] = $this->db->where('id', $this->db->insert_id())->get('user')->row();
 		} else {
 			$output['errCode'] = '01';
 			$output['message'] = 'Gagal mendaftarkan pengguna baru, silahkan coba lagi.';
