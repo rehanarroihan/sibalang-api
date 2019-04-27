@@ -31,7 +31,7 @@ class Stuff extends REST_Controller {
 			'stuff' => []
 		];
 		$detail = $this->db->where('stuff.id', $stuff_id)
-							->join('user', 'stuff.nim = user.nim')
+							->join('user', 'stuff.id = user.id')
 							->get('stuff');
 		if($detail->num_rows() > 0){
 			unset($detail->result()[0]->password);
