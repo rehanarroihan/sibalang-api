@@ -31,7 +31,7 @@ class Stuff extends REST_Controller {
 			'stuff' => []
 		];
 		$detail = $this->db->where('stuff.id', $stuff_id)
-							->join('user', 'stuff.id = user.id')
+							->join('user', 'user.id = stuff.id_user')
 							->get('stuff');
 		if($detail->num_rows() > 0){
 			unset($detail->result()[0]->password);
@@ -40,7 +40,8 @@ class Stuff extends REST_Controller {
 			$output['errCode'] = '01';
 			$output['message'] = 'Data not found';
 		}
-		$this->set_response($output, 200);
+		//$this->set_response($output, 200);
+		echo json_decode($detail->num_rows());
 	}
 
     public function index_post() {
