@@ -40,8 +40,7 @@ class Stuff extends REST_Controller {
 			$output['errCode'] = '01';
 			$output['message'] = 'Data not found';
 		}
-		//$this->set_response($output, 200);
-		echo json_decode($detail->num_rows());
+		$this->set_response($output, 200);
 	}
 
     public function index_post() {
