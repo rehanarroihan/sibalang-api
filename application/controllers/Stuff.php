@@ -17,7 +17,8 @@ class Stuff extends REST_Controller {
 			'message' => 'Success',
 			'stuffs' => []
 		];
-		$allStuff = $this->db->get('stuff');
+		// ->where('claimer') is produce WHERE `claimer` IS NULL
+		$allStuff = $this->db->where('claimer')->get('stuff');
 		if ($allStuff->num_rows() > 0) {
 			$output['stuffs'] = $allStuff->result();
 		}
