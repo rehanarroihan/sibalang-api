@@ -91,7 +91,7 @@ class Stuff extends REST_Controller {
             'message' => 'Berhasil mendaftarkan user',
 		];
 
-		$this->db->set('turned', 1)->where('id', $this->post('stuff_id'))->update('stuff');
+		$this->db->set('claimer', $this->post('claimer_user_id'))->where('id', $this->post('stuff_id'))->update('stuff');
 		if($this->db->affected_rows() > 0){
 			$output['message'] = 'Status barang telah di ubah';
 		} else {
