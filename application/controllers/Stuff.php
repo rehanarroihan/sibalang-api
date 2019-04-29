@@ -56,6 +56,7 @@ class Stuff extends REST_Controller {
 
 		//upload operation
 		$config['upload_path'] = './file/';
+		$config['max_size'] = 6048;
 		$config['allowed_types'] = 'gif|jpg|png|jpeg';
 		$this->load->library('upload', $config);
 		if ($this->upload->do_upload('photo')){
